@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const staticserver = require('serve-static');
 const passport = require("passport");
 const path = require("path");
 const fileUpload = require('express-fileupload');
@@ -24,7 +25,8 @@ app.use(
 app.use(bodyParser.json());
 
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static("/dist"));
+    // app.use(express.static("/dist"));
+    app.use('/', staticserver(path.join(__dirname, '/dist')))
 
     app.get(/.*/, (req, res) => {
         res.sendFile(path.join(__dirname, '/dist/index.html'));
